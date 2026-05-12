@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tulisan Indah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --cream: #faf6ee;
+      --dark: #0d0a06;
+      --mid: #2a2218;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+    }
+
+    body {
+      background-color: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Noise grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Radial glow center */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse at center,
+        rgba(201,168,76,0.12) 0%,
+        rgba(201,168,76,0.04) 45%,
+        transparent 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Thin top rule */
+    .rule {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: expand 1.6s ease forwards;
+      animation-delay: 0.4s;
+      transform: scaleX(0);
+    }
+
+    @keyframes expand {
+      to { transform: scaleX(1); }
+    }
+
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: riseUp 1s ease forwards;
+      animation-delay: 0.7s;
+    }
+
+    .headline {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: riseUp 1.2s ease forwards;
+      animation-delay: 1s;
+    }
+
+    .headline span {
+      display: block;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), #a07830);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+      font-weight: 300;
+      color: rgba(250, 246, 238, 0.55);
+      letter-spacing: 0.02em;
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: riseUp 1.2s ease forwards;
+      animation-delay: 1.4s;
+    }
+
+    .diamond-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: riseUp 1s ease forwards;
+      animation-delay: 1.8s;
+    }
+
+    .diamond {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    .diamond.sm {
+      width: 4px; height: 4px;
+      opacity: 0.4;
+    }
+
+    .line-h {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+
+    .line-h.rev {
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(-80vh) scale(0.3); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="wrapper">
+    <div class="rule"></div>
+
+    <p class="eyebrow">Keanggunan Tanpa Batas</p>
+
+    <h1 class="headline">
+      Dunia Milik<br/>
+      <span>Mereka yang Berani</span>
+    </h1>
+
+    <div class="diamond-row">
+      <div class="line-h"></div>
+      <div class="diamond sm"></div>
+      <div class="diamond"></div>
+      <div class="diamond sm"></div>
+      <div class="line-h rev"></div>
+    </div>
+
+    <p class="subtitle">
+      Dalam keheningan yang dalam, tersimpan kekuatan<br/>
+      yang tak pernah terucap namun selalu terasa.
+    </p>
+
+    <div class="rule" style="animation-delay:2s;"></div>
+  </div>
+
+  <script>
+    // Generate floating gold particles
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left   = Math.random() * 100 + 'vw';
+      p.style.bottom = '-10px';
+      p.style.animationDuration = (8 + Math.random() * 14) + 's';
+      p.style.animationDelay   = (Math.random() * 12) + 's';
+      p.style.opacity = 0;
+      p.style.transform = `scale(${0.5 + Math.random()})`;
+      container.appendChild(p);
+    }
+  </script>
+</body>
+</html>
